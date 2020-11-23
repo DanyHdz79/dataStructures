@@ -1,0 +1,34 @@
+28
+32
+A B
+A D
+A F
+D B
+D E
+B F
+B C
+F H
+F G
+G H
+H I
+E J
+C I
+C K
+J K
+K O
+K M
+K L
+O N
+L P
+P Y
+M P
+M N
+P Q
+Q Z
+Q S
+N S
+N T
+T W
+T U
+U V
+AB W

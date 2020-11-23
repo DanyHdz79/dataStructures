@@ -1,0 +1,21 @@
+Integrantes:
+David Eduardo Santiago Sánchez A01733753
+Daniela Hernández y Hernández  A01730397
+Franco Minutti Simoni          A01733927
+
+
+División de proyecto:
+~ Procesamiento de archivo de entrada considerando IP (input) - David y Franco
+~ Clase DirIp - Franco
+~ Clase Date - Dany
+~ Clase Registro - David
+~ Funciones adicionales de comparación entre registros (comparaIP, comparaMensaje, comparaRegistros) - David
+~ Inserción de nodos en orden - Dany y David
+~ Verificar si el archivo está vacío - Dany
+~ Pruebas de funcionamiento con muchos datos - Franco
+~ Correcciones de los métodos de comparación - Franco y Dany
+~ Método para imprimir los 5 priorizados- Dany
+~ Comentar el código - Franco
+~ Funciones insertaArbol e isEmpty - David y Dany
+~ Funciones printTree y creaNodo, en conjunto con la estructura Node - Franco y David
+
