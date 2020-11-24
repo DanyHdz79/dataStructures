@@ -32,7 +32,7 @@ void insert(Auto* hT[], Auto* &a) {
 }
 
 void deleteA(Auto* hT[], string key) {
-
+  
 }
 
 Auto* search(Auto* hT[], string key) {
