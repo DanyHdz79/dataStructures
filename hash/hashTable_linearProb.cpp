@@ -1,12 +1,31 @@
 #include <iostream>
+#include <string>
+#include <fstream>
 using namespace std;
 
+//Estructuras de datos
 struct Auto {
   string placa;
   string marca;
   string modelo;
   int anio;
 };
+
+struct Casilla{
+  char status='v';
+  Auto* dato;
+};
+
+bool isInArray(string p, Casilla hashTable[]){
+  for(int i=0;i<97;i++){
+    if(hashTable[i].dato!=NULL){
+      if(hashTable[i].dato->placa==p){
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 int hashFunction(string p) {
   int index = 0;
@@ -17,46 +36,73 @@ int hashFunction(string p) {
   return index;
 }
 
-void insert(Auto hT[], Auto &a) {
+void ins(Auto *new_auto, Casilla hashTable[]){
+  string plac = new_auto->placa;
+  int hash=hashFunction(plac);
+  if(hashTable[hash].status=='v'){
+    hashTable[hash].dato=new_auto;
+  }else{
+    bool insertado=false;
+    bool vacio;
+    int index=hash+1;
+    while(insertado!=true && index!=hash){
+      if(hashTable[index].status=='v'){
+        hashTable[index].dato=new_auto;
+        insertado=true;
+      }
+      if(index+1>96){
+        index=0;
+      }else{
+        index++;
+      }
+    }
+    if(insertado=false){
+      cout<<"tabla llena, imposible insertar"<<endl;
+    }
+  }
+}
+
+void del(Auto new_auto, Casilla *hashTable[]){
 
 }
 
-void deleteA(Auto hT[], string key) {
+Auto search(string key, Casilla hashTable[]){
 
 }
 
-Auto search(Auto hT[], string key) {
-  int index = hashFunction(key);
+void print(Casilla hashTable[]){
 
 }
 
-
-void print(Auto hT[]) {
-
-}
 
 int main() {
-  Auto hashTable[97] = {NULL};
+  Casilla hashTable[97]={};
   int option;
-  cin >> option;
-  while(option != 0) {
-    if(option == 1) { //insertar
-      string placa, marca, modelo;
+  while(option!=0){
+    cin>>option;
+    if(option==1){
+      string placa, marca, modelo, temp;
       int anio;
-      cin >> placa;
-      cin >> marca;
-      cin >> modelo;
-      cin >> anio;
+      getline(cin,placa);
+      getline(cin,marca);
+      getline(cin,modelo);
+      getline(cin,temp);
+      anio=stoi(temp);
+      Auto* new_auto = new Auto;
+      new_auto -> placa = placa;
+      new_auto -> marca = marca;
+      new_auto -> modelo = modelo;
+      new_auto -> anio = anio;
 
-
-    } else if(option == 2) { //eliminar
-
-    } else if(option == 3) { //imprimir tabla
-
-    } else if(option == 4) { //buscar
-
+      bool result=isInArray(placa,hashTable);
+      if(result==true){
+        cout<<"imposible insertar, placa duplicada"<<endl;
+      }else{
+        ins(new_auto, hashTable);
+      }
     }
-    cin >> option;
   }
+
   return 0;
 }
+
