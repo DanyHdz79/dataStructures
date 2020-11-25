@@ -135,30 +135,22 @@ void print(Casilla hashTable[]) {
 int main() {
   Casilla hashTable[97] = {};
   int option;
-  cin >> option;
+  cin>>option;
   while(option != 0) {
     if(option == 1) {
-      string placa, marca, modelo, temp, limpia;
+      string placa, marca, modelo, temp;
       int anio;
-      cin >> placa;
-      getline(cin, limpia);
+      getline(cin,placa);
+      getline(cin,placa);
       getline(cin, marca);
       getline(cin, modelo);
-      cin >> anio;
-
-      // cout << "pl: " << placa << endl;
-      // cout << "m: " << marca << endl;
-      // cout << "md: " << modelo << endl;
-      // cout << "a: " << anio << endl;
-      cout << placa << " " << marca << " " << modelo << " " << anio << endl;
-
-
+      getline(cin, temp);
+      anio=atoi(temp.c_str());
       Auto* new_auto = new Auto;
       new_auto -> placa = placa;
       new_auto -> marca = marca;
       new_auto -> modelo = modelo;
       new_auto -> anio = anio;
-
       bool result = isInArray(placa, hashTable);
       if(result) {
         cout << "imposible insertar, placa duplicada" << endl;
@@ -176,7 +168,7 @@ int main() {
 
     } else if(option == 4) { //buscar
       string placaBusq;
-      cin >> placaBusq;
+      getline(cin, placaBusq);
       Auto* result = search(placaBusq, hashTable);
       if(result == NULL) {
         cout << "dato no encontrado" << endl;
@@ -184,7 +176,7 @@ int main() {
         result -> imprimeAuto();
       }
     }
-    cin >> option;
+    cin>>option;
   }
   return 0;
 }
