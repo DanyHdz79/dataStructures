@@ -151,8 +151,6 @@ int main() {
       getline(cin, temp);
       anio = atoi(temp.c_str());
 
-      cout << placa << " " << marca << " " << modelo << " " << anio << endl;
-
       Auto* new_auto = new Auto;
       new_auto -> placa = placa;
       new_auto -> marca = marca;
