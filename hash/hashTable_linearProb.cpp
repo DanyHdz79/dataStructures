@@ -8,7 +8,7 @@
 //25/11/2020
 
 #include <iostream>
-#include <string>
+#include <stdio.h>
 using namespace std;
 
 //Estructuras de datos
@@ -135,23 +135,16 @@ void print(Casilla hashTable[]) {
 int main() {
   Casilla hashTable[97] = {};
   int option;
-  cin >> option;
+  scanf("%d",&option);
   while(option != 0) {
     if(option == 1) {
-      string placa, marca, modelo, temp, limpia;
+      char placa[15], marca[15], modelo[15], temp[15];
       int anio;
-      cin >> placa;
-      getline(cin, limpia);
-      getline(cin, marca);
-      getline(cin, modelo);
-      cin >> anio;
-
-      // cout << "pl: " << placa << endl;
-      // cout << "m: " << marca << endl;
-      // cout << "md: " << modelo << endl;
-      // cout << "a: " << anio << endl;
-      cout << placa << " " << marca << " " << modelo << " " << anio << endl;
-
+      scanf ("%s", placa);
+      scanf ("%s", marca);
+      scanf ("%s", modelo);
+      scanf ("%s", temp);
+      anio = atoi(temp);
 
       Auto* new_auto = new Auto;
       new_auto -> placa = placa;
@@ -168,7 +161,7 @@ int main() {
 
     } else if(option == 2) { //eliminar
       string placaElim;
-      cin>>placaElim;
+      cin >> placaElim;
       del(placaElim, hashTable);
 
     } else if(option == 3) { //imprimir tabla
@@ -184,7 +177,7 @@ int main() {
         result -> imprimeAuto();
       }
     }
-    cin >> option;
+    scanf("%d",&option);
   }
   return 0;
 }
