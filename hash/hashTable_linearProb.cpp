@@ -8,7 +8,7 @@
 //25/11/2020
 
 #include <iostream>
-#include <string>
+#include <stdio.h>
 using namespace std;
 
 //Estructuras de datos
@@ -160,7 +160,7 @@ int main() {
 
     } else if(option == 2) { //eliminar
       string placaElim;
-      cin>>placaElim;
+      cin >> placaElim;
       del(placaElim, hashTable);
 
     } else if(option == 3) { //imprimir tabla
