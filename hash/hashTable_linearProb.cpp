@@ -50,6 +50,7 @@ int hashFunction(string p) {
   return index;
 }
 
+//Complejidad O(1) [Amortizado] || worst case: O(n)
 void ins(Auto *new_auto, Casilla hashTable[]) {
   string plac = new_auto -> placa;
   int hash = hashFunction(plac);
@@ -76,6 +77,7 @@ void ins(Auto *new_auto, Casilla hashTable[]) {
   }
 }
 
+//Complejidad O(1) [Amortizado] || worst case: O(n)
 void del(string placaElim, Casilla hashTable[]) {
   int hash = hashFunction(placaElim);
   if(hashTable[hash].dato == NULL && hashTable[hash].status == 'v') return;
@@ -99,6 +101,7 @@ void del(string placaElim, Casilla hashTable[]) {
   }
 }
 
+//Complejidad O(1) [Amortizado] || worst case: O(n)
 Auto* search(string key, Casilla hashTable[]) {
   int hash = hashFunction(key);
   if(hashTable[hash].dato == NULL && hashTable[hash].status == 'v') return NULL;
@@ -121,6 +124,7 @@ Auto* search(string key, Casilla hashTable[]) {
   return NULL;
 }
 
+//Complejidad O(1)
 void print(Casilla hashTable[]) {
   for(int i = 0; i < 97; i++) {
     cout << i << " ";
@@ -135,7 +139,7 @@ void print(Casilla hashTable[]) {
 int main() {
   Casilla hashTable[97] = {};
   int option;
-  cin>>option;
+  cin >> option;
   while(option != 0) {
     if(option == 1) {
       string placa, marca, modelo, temp;
@@ -145,7 +149,10 @@ int main() {
       getline(cin, marca);
       getline(cin, modelo);
       getline(cin, temp);
-      anio=atoi(temp.c_str());
+      anio = atoi(temp.c_str());
+
+      cout << placa << " " << marca << " " << modelo << " " << anio << endl;
+
       Auto* new_auto = new Auto;
       new_auto -> placa = placa;
       new_auto -> marca = marca;
@@ -168,7 +175,8 @@ int main() {
 
     } else if(option == 4) { //buscar
       string placaBusq;
-      getline(cin, placaBusq);
+      cin >> placaBusq;
+
       Auto* result = search(placaBusq, hashTable);
       if(result == NULL) {
         cout << "dato no encontrado" << endl;
@@ -176,7 +184,7 @@ int main() {
         result -> imprimeAuto();
       }
     }
-    cin>>option;
+    cin >> option;
   }
   return 0;
 }
