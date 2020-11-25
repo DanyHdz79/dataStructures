@@ -78,7 +78,8 @@ void ins(Auto *new_auto, Casilla hashTable[]) {
 
 void del(string placaElim, Casilla hashTable[]) {
   int hash = hashFunction(placaElim);
-  if(hashTable[hash].dato -> placa == placaElim) {
+  if(hashTable[hash].dato == NULL && hashTable[hash].status == 'v') return;
+  if(hashTable[hash].status != 'b' && hashTable[hash].dato -> placa == placaElim) {
     hashTable[hash].dato = NULL;
     hashTable[hash].status = 'b';
   } else {
