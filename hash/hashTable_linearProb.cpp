@@ -8,6 +8,10 @@ struct Auto {
   string marca;
   string modelo;
   int anio;
+
+  void imprimeAuto(){
+    cout<<placa<<" "<<marca<<" "<<modelo<<" "<<anio<<endl;
+  }
 };
 
 struct Casilla{
@@ -38,17 +42,17 @@ int hashFunction(string p) {
 void ins(Auto *new_auto, Casilla hashTable[]) {
   string plac = new_auto -> placa;
   int hash = hashFunction(plac);
-  if(hashTable[hash].status == 'v') {
+  if(hashTable[hash].status == 'v' || hashTable[hash].status == 'b') {
     hashTable[hash].dato = new_auto;
-    hashTable[hast].status = 'o';
+    hashTable[hash].status = 'o';
   } else {
     bool insertado = false;
     bool vacio;
     int index = hash + 1;
     while(insertado != true && index != hash) {
-      if(hashTable[index].status == 'v') {
+      if(hashTable[index].status == 'v' || hashTable[index].status == 'b') {
         hashTable[index].dato = new_auto;
-        hashTable[hast].status = 'o';
+        hashTable[hash].status = 'o';
         insertado = true;
       }
       if(index + 1 > 96) index = 0;
@@ -61,16 +65,58 @@ void ins(Auto *new_auto, Casilla hashTable[]) {
   }
 }
 
-void del(Auto new_auto, Casilla hashTable[]) {
-
+void del(string placaElim, Casilla hashTable[]) {
+  int hash = hashFunction(placaElim);
+  if(hashTable[hash].dato->placa==placaElim) {
+    hashTable[hash].dato = NULL;
+    hashTable[hash].status = 'b';
+  } else {
+    int index=hash;
+    char casAct;
+    do{
+      index++;
+      if(index>96) index=0;
+      casAct=hashTable[index].status;
+      if(casAct!='v' && casAct!='b'){
+        if(hashTable[index].dato->placa==placaElim){
+          hashTable[hash].dato = NULL;
+          hashTable[hash].status = 'b';
+        }
+      }
+    } while(casAct!='v' && index!=hash);
+  }
 }
 
-Auto search(string key, Casilla hashTable[]) {
-
+Auto* search(string key, Casilla hashTable[]) {
+  int hash = hashFunction(key);
+  if(hashTable[hash].dato->placa==key){
+    return hashTable[hash].dato;
+  }else{
+    int index=hash;
+    char casAct;
+    do{
+      index++;
+      if(index>96) index=0;
+      casAct=hashTable[index].status;
+      if(casAct!='v' && casAct!='b'){
+        if(hashTable[index].dato->placa==key){
+          return hashTable[index].dato;
+        }
+      }
+    } while(casAct!='v' && index!=hash);
+  }
+  return NULL;
 }
 
 void print(Casilla hashTable[]){
-
+  for(int i=0;i<97;i++){
+    cout<<i<<" ";
+    if(hashTable[i].dato!=NULL){
+      hashTable[i].dato->imprimeAuto();
+    }else{
+      cout<<endl;
+    }
+  }
 }
 
 
@@ -80,10 +126,10 @@ int main() {
   cin >> option;
   while(option != 0) {
     if(option == 1) {
-      string placa, marca, modelo, temp;
+      string placa, marca, modelo, temp, limpia;
       int anio;
+      cin>>placa;
       cin.ignore();
-      getline(cin, placa);
       getline(cin, marca);
       getline(cin, modelo);
       getline(cin, temp);
@@ -103,11 +149,20 @@ int main() {
       }
 
     } else if(option == 2) { //eliminar
-
+      string placaElim;
+      cin>>placaElim;
+      del(placaElim, hashTable);
     } else if(option == 3) { //imprimir tabla
-  
+      print(hashTable);
     } else if(option == 4) { //buscar
-
+      string placaBusq;
+      cin>>placaBusq;
+      Auto* result=search(placaBusq, hashTable);
+      if(result==NULL){
+        cout<<"dato no encontrado"<<endl;
+      }else{
+        result->imprimeAuto();
+      }
     }
     cin >> option;
   }
