@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 using namespace std;
 
 //Estructuras de datos
@@ -12,14 +11,14 @@ struct Auto {
 };
 
 struct Casilla{
-  char status='v';
+  char status = 'v';
   Auto* dato;
 };
 
 bool isInArray(string p, Casilla hashTable[]){
-  for(int i=0;i<97;i++){
-    if(hashTable[i].dato!=NULL){
-      if(hashTable[i].dato->placa==p){
+  for(int i = 0; i < 97; i++){
+    if(hashTable[i].dato != NULL) {
+      if(hashTable[i].dato -> placa == p) {
         return true;
       }
     }
@@ -36,37 +35,37 @@ int hashFunction(string p) {
   return index;
 }
 
-void ins(Auto *new_auto, Casilla hashTable[]){
-  string plac = new_auto->placa;
-  int hash=hashFunction(plac);
-  if(hashTable[hash].status=='v'){
-    hashTable[hash].dato=new_auto;
-  }else{
-    bool insertado=false;
+void ins(Auto *new_auto, Casilla hashTable[]) {
+  string plac = new_auto -> placa;
+  int hash = hashFunction(plac);
+  if(hashTable[hash].status == 'v') {
+    hashTable[hash].dato = new_auto;
+    hashTable[hast].status = 'o';
+  } else {
+    bool insertado = false;
     bool vacio;
-    int index=hash+1;
-    while(insertado!=true && index!=hash){
-      if(hashTable[index].status=='v'){
-        hashTable[index].dato=new_auto;
-        insertado=true;
+    int index = hash + 1;
+    while(insertado != true && index != hash) {
+      if(hashTable[index].status == 'v') {
+        hashTable[index].dato = new_auto;
+        hashTable[hast].status = 'o';
+        insertado = true;
       }
-      if(index+1>96){
-        index=0;
-      }else{
-        index++;
-      }
+      if(index + 1 > 96) index = 0;
+      else index++;
     }
-    if(insertado=false){
-      cout<<"tabla llena, imposible insertar"<<endl;
+
+    if(!insertado) {
+      cout << "tabla llena, imposible insertar" << endl;
     }
   }
 }
 
-void del(Auto new_auto, Casilla *hashTable[]){
+void del(Auto new_auto, Casilla hashTable[]) {
 
 }
 
-Auto search(string key, Casilla hashTable[]){
+Auto search(string key, Casilla hashTable[]) {
 
 }
 
@@ -76,33 +75,42 @@ void print(Casilla hashTable[]){
 
 
 int main() {
-  Casilla hashTable[97]={};
+  Casilla hashTable[97] = {};
   int option;
-  while(option!=0){
-    cin>>option;
-    if(option==1){
+  cin >> option;
+  while(option != 0) {
+    if(option == 1) {
       string placa, marca, modelo, temp;
       int anio;
-      getline(cin,placa);
-      getline(cin,marca);
-      getline(cin,modelo);
-      getline(cin,temp);
-      anio=stoi(temp);
+      cin.ignore();
+      getline(cin, placa);
+      getline(cin, marca);
+      getline(cin, modelo);
+      getline(cin, temp);
+      anio = stoi(temp);
+
       Auto* new_auto = new Auto;
       new_auto -> placa = placa;
       new_auto -> marca = marca;
       new_auto -> modelo = modelo;
       new_auto -> anio = anio;
 
-      bool result=isInArray(placa,hashTable);
-      if(result==true){
-        cout<<"imposible insertar, placa duplicada"<<endl;
-      }else{
+      bool result = isInArray(placa, hashTable);
+      if(result){
+        cout << "imposible insertar, placa duplicada" << endl;
+      } else {
         ins(new_auto, hashTable);
       }
+
+    } else if(option == 2) { //eliminar
+
+    } else if(option == 3) { //imprimir tabla
+  
+    } else if(option == 4) { //buscar
+
     }
+    cin >> option;
   }
 
   return 0;
 }
-
