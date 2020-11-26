@@ -28,18 +28,6 @@ struct Casilla{
   Auto* dato = NULL;
 };
 
-//Complejidad O(1)
-bool isInArray(string p, Casilla hashTable[]){
-  for(int i = 0; i < 97; i++){
-    if(hashTable[i].dato != NULL) {
-      if(hashTable[i].dato -> placa == p) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 //Complejidad O(n)
 int hashFunction(string p) {
   int index = 0;
@@ -59,12 +47,11 @@ void ins(Auto *new_auto, Casilla hashTable[]) {
     hashTable[hash].status = 'o';
   } else {
     bool insertado = false;
-    bool vacio;
     int index = hash + 1;
     while(insertado != true && index != hash) {
       if(hashTable[index].status == 'v' || hashTable[index].status == 'b') {
         hashTable[index].dato = new_auto;
-        hashTable[hash].status = 'o';
+        hashTable[index].status = 'o';
         insertado = true;
       }
       if(index + 1 > 96) index = 0;
@@ -93,8 +80,8 @@ void del(string placaElim, Casilla hashTable[]) {
       casAct = hashTable[index].status;
       if(casAct != 'v' && casAct != 'b'){
         if(hashTable[index].dato -> placa == placaElim) {
-          hashTable[hash].dato = NULL;
-          hashTable[hash].status = 'b';
+          hashTable[index].dato = NULL;
+          hashTable[index].status = 'b';
         }
       }
     } while(casAct != 'v' && index != hash);
@@ -140,12 +127,12 @@ int main() {
   Casilla hashTable[97] = {};
   int option;
   cin >> option;
+  cin.ignore();
   while(option != 0) {
-    if(option == 1) {
+    if(option == 1) { //insertar
       string placa, marca, modelo, temp;
       int anio;
-      getline(cin,placa);
-      getline(cin,placa);
+      getline(cin, placa);
       getline(cin, marca);
       getline(cin, modelo);
       getline(cin, temp);
@@ -156,8 +143,8 @@ int main() {
       new_auto -> marca = marca;
       new_auto -> modelo = modelo;
       new_auto -> anio = anio;
-      bool result = isInArray(placa, hashTable);
-      if(result) {
+      Auto* result = search(placa, hashTable);
+      if(result != NULL) {
         cout << "imposible insertar, placa duplicada" << endl;
       } else {
         ins(new_auto, hashTable);
@@ -165,7 +152,7 @@ int main() {
 
     } else if(option == 2) { //eliminar
       string placaElim;
-      cin >> placaElim;
+      getline(cin, placaElim);
       del(placaElim, hashTable);
 
     } else if(option == 3) { //imprimir tabla
@@ -173,8 +160,7 @@ int main() {
 
     } else if(option == 4) { //buscar
       string placaBusq;
-      cin >> placaBusq;
-
+      getline(cin, placaBusq);
       Auto* result = search(placaBusq, hashTable);
       if(result == NULL) {
         cout << "dato no encontrado" << endl;
@@ -183,6 +169,7 @@ int main() {
       }
     }
     cin >> option;
+    cin.ignore();
   }
   return 0;
 }
