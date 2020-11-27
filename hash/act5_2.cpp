@@ -1,10 +1,20 @@
+//TC1031.2
+//Act 5.2 - Actividad Integral sobre el uso de códigos hash (Evidencia Competencia)
+//Daniela Hernández y Hernández   A01730397
+//David Eduardo Santiago Sánchez  A01733753
+//Franco Minutti Simoni           A01733927
+//Descripción: crea una hash table a partir de los registros encontrados en
+//la bitácora y permite al usuario buscar un dominio y ver el número de accesos
+//y las IPs de ese dominio.
+//23/11/2020
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
 using namespace std;
 
-//32749
+//hashTable size: 32749
 //Estructuras de datos
 struct Registro {
     string puerto;
@@ -29,23 +39,24 @@ struct Red {
     int numRegisters;
 };
 
-struct Summary{
+struct Summary {
     string dominio;
     int accesos;
     int numIps;
     vector<string> ips;
     Summary *next;
 
-    void imprimeSummary(){
-      cout<<dominio<<endl;
-      cout<<accesos<<endl;
-      cout<<numIps<<endl;
-      for(int i=0;i<ips.size();i++){
-        cout<<ips[i]<<endl;
+    void imprimeSummary() {
+      cout << dominio << endl;
+      cout << accesos << endl;
+      cout << numIps << endl;
+      for(int i = 0; i < ips.size(); i++) {
+        cout << ips[i] << endl;
       }
     }
 };
 
+//Complejidad O(n)
 int hashFunction(string p) {
   int index = 0;
   for(int i = 0; i < p.size(); i++) {
@@ -57,7 +68,8 @@ int hashFunction(string p) {
   return index;
 }
 
-vector<int> IpToInt(string ipIn){
+//Complejidad O(n)
+vector<int> IpToInt(string ipIn) {
   string delimiter1 = ".";
   int pos = 0;
   string token;
@@ -68,35 +80,36 @@ vector<int> IpToInt(string ipIn){
   while ((pos = ipIn.find(delimiter1)) != string::npos) {
     token = ipIn.substr(0, pos);
     ipIn.erase(0, pos + delimiter1.length());
-    num=stoi(token);
+    num = stoi(token);
     vector_ints.push_back(num);
   }
   return vector_ints;
 }
 
-int comparaIp(string ipA, string ipB){
-  vector<int> numsA=IpToInt(ipA);
-  vector<int> numsB=IpToInt(ipB);
-  if(numsA[0]<numsB[0]){ //Primer numero
+//Complejidad O(1)
+int comparaIp(string ipA, string ipB) {
+  vector<int> numsA = IpToInt(ipA);
+  vector<int> numsB = IpToInt(ipB);
+  if(numsA[0] < numsB[0]) { //Primer numero
     return -1;
-  }else if(numsA[0]>numsB[0]){
+  } else if(numsA[0] > numsB[0]) {
     return 1;
-  }else{
-    if(numsA[1]<numsB[1]){ //Segundo numero
+  } else {
+    if(numsA[1] < numsB[1]) { //Segundo numero
       return -1;
-    }else if(numsA[1]>numsB[1]){
+    } else if(numsA[1] > numsB[1]) {
       return 1;
-    }else{
-      if(numsA[2]<numsB[2]){ //Tercer numero
+    } else {
+      if(numsA[2] < numsB[2]) { //Tercer numero
         return -1;
-      }else if(numsA[2]>numsB[2]){
+      } else if(numsA[2] > numsB[2]) {
         return 1;
-      }else{
-        if(numsA[3]<numsB[3]){ //Cuarto numero
+      } else {
+        if(numsA[3] < numsB[3]) { //Cuarto numero
           return -1;
-        }else if(numsA[3]>numsB[3]){
+        } else if(numsA[3]>numsB[3]) {
           return 1;
-        }else{
+        } else {
            return 0;
         }
       }
@@ -104,6 +117,7 @@ int comparaIp(string ipA, string ipB){
   }
 }
 
+//Complejidad O(nlogn)
 void merge(vector<string> &v1, int start, int middle, int end) {
   int i, j, k;
   int n1 = middle - start + 1;
@@ -141,7 +155,7 @@ void merge(vector<string> &v1, int start, int middle, int end) {
   }
 }
 
-//Ordena los dators del vector dado
+//Complejidad O(n)
 void ordenaMerge(vector<string> &v1, int start, int end) {
   if (start < end) {
     int middle = start + (end - start) / 2;
@@ -334,7 +348,8 @@ void aumentaNumHost(Host* &h) {
 }
 
 //---------------------MANEJO DE TABLA-----------------------------------------
-void graphToHash(Red* head, Summary* hashTable[]){
+//Complejidad O(n) [Amortizado]
+void graphToHash(Red* head, Summary* hashTable[]) {
   while(head != NULL) {
     Summary* new_summary = new Summary();
     new_summary -> dominio = head->red;
@@ -344,13 +359,13 @@ void graphToHash(Red* head, Summary* hashTable[]){
     vector<string> ipsList;
     Host* hostAct = head -> hostHead;
     while(hostAct != NULL) {
-        string new_ip= head -> red + "." +  hostAct -> host;
+        string new_ip = head -> red + "." +  hostAct -> host;
         ipsList.push_back(new_ip);
         hostAct = hostAct -> nextHost;
       }
       ordenaMerge(ipsList, 0, ipsList.size()-1);
       new_summary -> ips = ipsList;
-      int index=hashFunction(new_summary -> dominio);
+      int index = hashFunction(new_summary -> dominio);
       if(hashTable[index] == NULL) {
         hashTable[index] = new_summary;
       } else {
@@ -364,6 +379,7 @@ void graphToHash(Red* head, Summary* hashTable[]){
     }
 }
 
+//Complejidad O(1) [Amortizado] || worst case: O(n)
 Summary* search(Summary* hT[], string key) {
   int index = hashFunction(key);
   Summary* tmp = hT[index];
@@ -383,11 +399,11 @@ int main() {
   ifstream input("test5.txt");
   if(input.is_open()) {
       while(!input.eof()) {
-        getline(input,month_in,' ');//obtiene mes
-        getline(input,day_in,' ');//obtiene dia
-        getline(input,hour_in,' ');//obtiene la hora sin separar
-        getline(input,ip_in,' ');//obtiene ip
-        getline(input,message_in);//obtiene el mensaje
+        getline(input, month_in,' ');//obtiene mes
+        getline(input, day_in,' ');//obtiene dia
+        getline(input, hour_in,' ');//obtiene la hora sin separar
+        getline(input, ip_in,' ');//obtiene ip
+        getline(input, message_in);//obtiene el mensaje
         string fecha = month_in + " " + day_in;
         vector<string> ipAct = procesaIP(ip_in);
         Red* new_red = existeRed(ipAct[0], head);
@@ -408,17 +424,18 @@ int main() {
       }
     input.close();
   }
+
   graphToHash(head, hashTable);
 
   //Búsqueda de datos
   int n;
   string searchDomain;
-  cin>>n;
-  for(int i=0;i<n;i++){
-    cin>>data;
-    Summary* result= search(hashTable, data);
-    if(result!=NULL){
-      result->imprimeSummary();
+  cin >> n;
+  for(int i = 0; i < n; i++) {
+    cin >> data;
+    Summary* result = search(hashTable, data);
+    if(result != NULL){
+      result -> imprimeSummary();
     }
   }
 }
