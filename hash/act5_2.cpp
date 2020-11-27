@@ -429,7 +429,7 @@ int main() {
 
   //Búsqueda de datos
   int n;
-  string searchDomain;
+  string data;
   cin >> n;
   for(int i = 0; i < n; i++) {
     cin >> data;
