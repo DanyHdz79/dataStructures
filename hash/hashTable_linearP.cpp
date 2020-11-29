@@ -59,7 +59,7 @@ void ins(Auto *new_auto, Casilla hashTable[]) {
     }
 
     if(!insertado) {
-      cout << "tabla llena, imposible insertar" << endl;
+      cout << "tabla llena, imposible insertar" << endl << endl;
     }
   }
 }
@@ -145,7 +145,7 @@ int main() {
       new_auto -> anio = anio;
       Auto* result = search(placa, hashTable);
       if(result != NULL) {
-        cout << "imposible insertar, placa duplicada" << endl;
+        cout << "imposible insertar, placa duplicada" << endl << endl;
       } else {
         ins(new_auto, hashTable);
       }
@@ -157,7 +157,7 @@ int main() {
 
     } else if(option == 3) { //imprimir tabla
       print(hashTable);
-
+      cout << endl;
     } else if(option == 4) { //buscar
       string placaBusq;
       getline(cin, placaBusq);
@@ -167,6 +167,7 @@ int main() {
       } else {
         result -> imprimeAuto();
       }
+      cout << endl;
     }
     cin >> option;
     cin.ignore();
